@@ -3,6 +3,7 @@ export class Project {
         this.title = title;
         this.description = description;
         this.todoList = [];
+        this.id = crypto.randomUUID();
     }
 
     addTodo(todo){
