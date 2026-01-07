@@ -1,13 +1,20 @@
 import { Project } from "./project";
 import { Todo } from "./todo";
+import { setStorage, loadStorage } from "./storage";
 
 const projects = [];
 let activeProject = null;
 
 function initProject(){
-    const defaultProject = new Project("Project 1", "Default Project");
-    projects.push(defaultProject);
-    activeProject = defaultProject.id;
+    const loadProjects = loadStorage();
+    if(loadProjects && loadProjects.length > 0){
+        projects.push(...loadProjects);
+        activeProject = projects[0].id;
+    } else{
+        const defaultProject = new Project("Project 1", "Default Project");
+        projects.push(defaultProject);
+        activeProject = defaultProject.id;
+    }
 }
 
 initProject();
@@ -25,6 +32,8 @@ function createProject(title, description){
     projects.push(project);
     activeProject = project.id;
 
+    setStorage(projects);
+
     return project;
 }
 
@@ -33,12 +42,15 @@ function addTodoToActiveProject(todo){
 
     const newTodo = new Todo(todo.title, todo.description, todo.dueDate, todo.priority);
     project.addTodo(newTodo);
+
+    setStorage(projects);
 }
 
 function deleteTodoFromActiveProject(todo){
     const project = getActiveProject();
-
     project.deleteTodo(todo);
+    
+    setStorage(projects);
 }
 
 export {
@@ -46,5 +58,5 @@ export {
     setActiveProject,
     createProject,
     addTodoToActiveProject,
-    deleteTodoFromActiveProject
+    deleteTodoFromActiveProject,
 }
