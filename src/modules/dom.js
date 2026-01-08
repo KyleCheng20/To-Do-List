@@ -2,7 +2,7 @@ import { getActiveProject, setActiveProject, createProject, deleteProject, addTo
 
 function renderProjects(){
     const projectsContainer = document.querySelector(".projects-container");
-    projectsContainer.innerHTML = '';
+    projectsContainer.innerHTML = "";
 
     projects.forEach(project => {
         const projectItem = document.createElement("div");
@@ -22,11 +22,13 @@ function renderProjects(){
             event.stopPropagation();
             deleteProject(project);
             renderProjects();
+            renderTodos();
         });
 
         projectItem.addEventListener("click", () => {
             setActiveProject(project);
             renderProjects();
+            renderTodos();
         });
 
         const activeProject = getActiveProject();
@@ -36,5 +38,79 @@ function renderProjects(){
 
         projectItem.append(projectName, trashContainer);
         projectsContainer.appendChild(projectItem);
+    });
+}
+
+function renderTodos(){
+    const todoContainer = document.querySelector(".todo-container");
+    todoContainer.innerHTML = "";
+
+    const activeProject = getActiveProject();
+    if(!activeProject) return;
+
+    activeProject.todoList.forEach(todo => {
+        const todoItem = document.createElement("div");
+        todoItem.classList.add(`todo-item priority-${todo.priority}`);
+
+        if(todo.isComplete){
+            todoItem.classList.add("completed")
+        }
+
+        // todo left side
+        const todoLeftContainer = document.createElement("div");
+        todoLeftContainer.classList.add("todo-left");
+
+        const leftHeader = document.createElement("div");
+        leftHeader.classList.add("left-header");
+
+        const leftBottomInfo = document.createElement("div");
+        leftBottomInfo.classList.add("left-bottom-info");
+
+        const todoCheckBox = document.createElement("div");
+        todoCheckBox.classList.add("todo-check-box");
+
+        const todoTitle = document.createElement("h3");
+        todoTitle.classList.add("todo-title");
+        todoTitle.textContent = todo.title;
+
+        const todoDescription = document.createElement("p");
+        todoDescription.classList.add("todo-description");
+        todoDescription.textContent = todo.description;
+
+        const todoDueDate = document.createElement("span");
+        todoDueDate.classList.add("todo-due-date");
+        todoDueDate.textContent = todo.dueDate;
+
+        const todoPriority = document.createElement("span");
+        todoPriority.classList.add("todo-priority");
+        todoPriority.textContent = todo.priority;
+
+        leftHeader.append(todoCheckBox, todoTitle);
+        leftBottomInfo.append(todoDueDate, todoPriority);
+
+        todoLeftContainer.append(leftHeader, todoDescription, leftBottomInfo);
+
+
+        // todo right side
+        const todoRightContainer = document.createElement("div");
+        todoRightContainer.classList.add("todo-right");
+
+        const deleteTodoBtn = document.createElement("button");
+        deleteTodoBtn.classList.add("delete-todo-btn");
+        deleteTodoBtn.textContent = "x";
+
+        const editTodoBtn = document.createElement("button");
+        editTodoBtn.classList.add("edit-todo-btn");
+        editTodoBtn.textContent = "Edit";
+
+        deleteTodoBtn.addEventListener("click", () => {
+            deleteTodoFromActiveProject(todo);
+            renderTodos();
+        });
+
+        todoRightContainer.append(deleteTodoBtn, editTodoBtn);
+
+        todoItem.append(todoLeftContainer, todoRightContainer);
+        todoContainer.appendChild(todoItem);
     });
 }
