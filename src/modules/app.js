@@ -37,6 +37,23 @@ function createProject(title, description){
     return project;
 }
 
+function deleteProject(project){
+    // prevent deleting last project
+    if(projects.length === 1) return;
+
+    const index = projects.findIndex(p => p.id === project.id);
+    if(index === -1) return;
+
+    projects.splice(index, 1);
+
+    // handle if deleting the current active project
+    if(activeProject === project.id){
+        activeProject = projects.length > 0 ? projects[0].id : null;
+    }
+
+    setStorage(projects);
+}
+
 function addTodoToActiveProject(todo){
     const project = getActiveProject();
 
@@ -57,6 +74,8 @@ export {
     getActiveProject,
     setActiveProject,
     createProject,
+    deleteProject,
     addTodoToActiveProject,
     deleteTodoFromActiveProject,
+    projects
 }
