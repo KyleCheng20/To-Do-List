@@ -22,12 +22,14 @@ function renderProjects(){
             event.stopPropagation();
             deleteProject(project);
             renderProjects();
+            renderActiveProjectInfo()
             renderTodos();
         });
 
         projectItem.addEventListener("click", () => {
             setActiveProject(project);
             renderProjects();
+            renderActiveProjectInfo();
             renderTodos();
         });
 
@@ -114,3 +116,36 @@ function renderTodos(){
         todoContainer.appendChild(todoItem);
     });
 }
+
+function renderActiveProjectInfo(){
+    const infoContainer = document.querySelector(".project-info-container");
+    const addTodoBtn = document.querySelector(".add-todo-btn");
+
+    const activeProject = getActiveProject();
+    if(!activeProject) return;
+
+    infoContainer.innerHTML = "";
+
+    const projectTitle = document.createElement("h2");
+    projectTitle.classList.add("project-title");
+    projectTitle.textContent = activeProject.title;
+
+    const projectDescription = document.createElement("p");
+    projectDescription.classList.add("project-description");
+    projectDescription.textContent = activeProject.description;
+
+    infoContainer.append(projectTitle, projectDescription);
+
+    addTodoBtn.addEventListener("click", () => {
+        console.log(`Add todo to: ${activeProject.title}`);
+        // open dialog modal later
+    });
+}
+
+function displayApp(){
+    renderProjects();
+    renderActiveProjectInfo();
+    renderTodos();
+}
+
+export { displayApp };
