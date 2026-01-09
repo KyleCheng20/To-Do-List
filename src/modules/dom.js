@@ -1,5 +1,9 @@
 import { getActiveProject, setActiveProject, createProject, deleteProject, addTodoToActiveProject, deleteTodoFromActiveProject, projects } from "./app";
 
+const newProjectModal = document.querySelector(".add-project-modal");
+const cancelBtn = document.querySelector(".cancel-form-btn");
+const closeModalBtn = document.querySelector(".close-modal");
+
 function renderProjects(){
     const projectsContainer = document.querySelector(".projects-container");
     projectsContainer.innerHTML = "";
@@ -40,6 +44,11 @@ function renderProjects(){
 
         projectItem.append(projectName, trashContainer);
         projectsContainer.appendChild(projectItem);
+    });
+
+    const addNewProjectBtn = document.querySelector(".add-project-btn");
+    addNewProjectBtn.addEventListener("click", () => {
+        newProjectModal.showModal();
     });
 }
 
@@ -147,5 +156,34 @@ function displayApp(){
     renderActiveProjectInfo();
     renderTodos();
 }
+
+// form handlers
+const newProjectForm = document.querySelector(".add-project-form");
+
+newProjectForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const newProjectTitle = newProjectForm.querySelector("#project-title").value;
+    const newProjectDescription = newProjectForm.querySelector("#project-description").value;
+
+    createProject(newProjectTitle, newProjectDescription);
+
+    newProjectForm.reset();
+    newProjectModal.close();
+
+    renderProjects();
+    renderActiveProjectInfo();
+    renderTodos();
+});
+
+cancelBtn.addEventListener("click", () => {
+    newProjectForm.reset();
+    newProjectModal.close();
+});
+
+closeModalBtn.addEventListener("click", () => {
+    newProjectForm.reset();
+    newProjectModal.close();
+});
 
 export { displayApp };

@@ -18,6 +18,7 @@
                 <div class="projects">
                     <h2>Your Projects</h2>
                     <div class="projects-container"></div>
+                    <button class="add-project-btn">+ New Project</button>
                 </div>
             </aside>
             <main>
@@ -41,5 +42,31 @@
                 </a>
             </footer>
         </div>
+
+        <!-- Add New Project Modal -->
+        <dialog class="add-project-modal">
+            <form class="add-project-form">
+                <div class="project form-container">
+                    <div class="project form-header">
+                        <h2>New Project</h2>
+                        <span class="close-modal">&times;</span>
+                    </div>
+                    <div class="project form-input-container">
+                        <div class="project-title-input-container">
+                            <label for="project-title">Project Name</label>
+                            <input required type="text" id="project-title" name="project-title" placeholder="Enter project name">
+                        </div>
+                        <div class="project-description-input-container">
+                            <label for="project-description">Project Description</label>
+                            <textarea id="project-description" name="project-description" placeholder="Enter project description"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-btn-container">
+                        <button type="button" class="cancel-form-btn">Cancel</button>
+                        <button type="submit" class="create-project-btn">+ Create Project</button>
+                    </div>
+                </div>
+            </form>
+        </dialog>
     </body>
 </html>
