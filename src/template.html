@@ -108,5 +108,45 @@
                 </div>
             </form>
         </dialog>
+
+        <!-- Edit Task Modal -->
+         <dialog class="edit-task-modal">
+            <form class="edit-task-form">
+                <div class="task form-container">
+                    <div class="task form-header">
+                        <h2>Edit Task</h2>
+                        <span class="close-modal">&times;</span>
+                    </div>
+                    <div class="task form-input-container">
+                        <div class="task-title-input-container">
+                            <label for="task-title">Task Name</label>
+                            <input required type="text" id="task-title" name="task-title" placeholder="Enter task name">
+                        </div>
+                        <div class="task-description-input-container">
+                            <label for="task-description">Task Description</label>
+                            <textarea id="task-description" name="task-description" placeholder="Enter task description"></textarea>
+                        </div>
+
+                        <div class="task-due-date-input-container">
+                            <label for="task-due-date">Task Due Date</label>
+                            <input required type="date" id="task-due-date" name="task-due-date">
+                        </div>
+
+                        <div class="task-priority-input-container">
+                            <label for="task-priority">Task Priority</label>
+                            <select name="task-priority" id="task-priority">
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-btn-container">
+                        <button type="button" class="cancel-form-btn">Cancel</button>
+                        <button type="submit" class="create-task-btn">+ Create Task</button>
+                    </div>
+                </div>
+            </form>
+        </dialog>
     </body>
 </html>

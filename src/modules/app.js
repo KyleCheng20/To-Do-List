@@ -70,6 +70,16 @@ function deleteTodoFromActiveProject(todo){
     setStorage(projects);
 }
 
+function toggleTodoComplete(todo){
+    const project = getActiveProject();
+    const targetTodo = project.todoList.find(t => t.id === todo.id);
+
+    if(!targetTodo) return;
+
+    targetTodo.isComplete = !targetTodo.isComplete;
+    setStorage(projects);
+}
+
 export {
     getActiveProject,
     setActiveProject,
@@ -77,5 +87,6 @@ export {
     deleteProject,
     addTodoToActiveProject,
     deleteTodoFromActiveProject,
+    toggleTodoComplete,
     projects
 }

@@ -6,3 +6,9 @@
 .trash-container:hover{
     color: red;
 }
+
+.todo-check-box{
+    border: 1px solid black;
+    width: 25px;
+    height: 25px;
+}

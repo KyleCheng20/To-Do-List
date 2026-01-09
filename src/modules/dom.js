@@ -1,9 +1,9 @@
-import { getActiveProject, setActiveProject, createProject, deleteProject, addTodoToActiveProject, deleteTodoFromActiveProject, projects } from "./app";
+import { getActiveProject, setActiveProject, createProject, deleteProject, addTodoToActiveProject, deleteTodoFromActiveProject, toggleTodoComplete, projects } from "./app";
 
 const newProjectModal = document.querySelector(".add-project-modal");
 const newTaskModal = document.querySelector(".add-task-modal");
-const cancelBtn = document.querySelector(".cancel-form-btn");
-const closeModalBtn = document.querySelector(".close-modal");
+const cancelBtns = document.querySelectorAll(".cancel-form-btn");
+const closeModalBtns = document.querySelectorAll(".close-modal");
 const addTodoBtn = document.querySelector(".add-todo-btn");
 
 function renderProjects(){
@@ -98,6 +98,13 @@ function renderTodos(){
         todoPriority.classList.add("todo-priority");
         todoPriority.textContent = todo.priority;
 
+        todoCheckBox.addEventListener("click", (event) => {
+            event.stopPropagation();
+
+            toggleTodoComplete(todo);
+            renderTodos();
+        });
+
         leftHeader.append(todoCheckBox, todoTitle);
         leftBottomInfo.append(todoDueDate, todoPriority);
 
@@ -148,8 +155,8 @@ function renderActiveProjectInfo(){
 }
 
 addTodoBtn.addEventListener("click", () => {
-        newTaskModal.showModal();
-    });
+    newTaskModal.showModal();
+});
 
 function displayApp(){
     renderProjects();
@@ -196,18 +203,22 @@ newTaskForm.addEventListener("submit", (event) => {
     renderTodos();
 });
 
-cancelBtn.addEventListener("click", () => {
-    newProjectForm.reset();
-    newTaskForm.reset();
-    newProjectModal.close();
-    newTaskModal.close();
+cancelBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+        newProjectForm.reset();
+        newTaskForm.reset();
+        newProjectModal.close();
+        newTaskModal.close();
+    });
 });
 
-closeModalBtn.addEventListener("click", () => {
-    newProjectForm.reset();
-    newTaskForm.reset();
-    newProjectModal.close();
-    newTaskModal.close();
+closeModalBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+        newProjectForm.reset();
+        newTaskForm.reset();
+        newProjectModal.close();
+        newTaskModal.close();
+    });
 });
 
 export { displayApp };
