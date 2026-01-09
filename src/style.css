@@ -1,0 +1,8 @@
+.trash-container{
+    display: inline-block;
+    border: 1px solid black;
+}
+
+.trash-container:hover{
+    color: red;
+}

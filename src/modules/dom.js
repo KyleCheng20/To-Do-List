@@ -1,8 +1,10 @@
 import { getActiveProject, setActiveProject, createProject, deleteProject, addTodoToActiveProject, deleteTodoFromActiveProject, projects } from "./app";
 
 const newProjectModal = document.querySelector(".add-project-modal");
+const newTaskModal = document.querySelector(".add-task-modal");
 const cancelBtn = document.querySelector(".cancel-form-btn");
 const closeModalBtn = document.querySelector(".close-modal");
+const addTodoBtn = document.querySelector(".add-todo-btn");
 
 function renderProjects(){
     const projectsContainer = document.querySelector(".projects-container");
@@ -61,7 +63,7 @@ function renderTodos(){
 
     activeProject.todoList.forEach(todo => {
         const todoItem = document.createElement("div");
-        todoItem.classList.add(`todo-item priority-${todo.priority}`);
+        todoItem.classList.add("todo-item", `priority-${todo.priority}`);
 
         if(todo.isComplete){
             todoItem.classList.add("completed")
@@ -128,7 +130,6 @@ function renderTodos(){
 
 function renderActiveProjectInfo(){
     const infoContainer = document.querySelector(".project-info-container");
-    const addTodoBtn = document.querySelector(".add-todo-btn");
 
     const activeProject = getActiveProject();
     if(!activeProject) return;
@@ -144,12 +145,11 @@ function renderActiveProjectInfo(){
     projectDescription.textContent = activeProject.description;
 
     infoContainer.append(projectTitle, projectDescription);
-
-    addTodoBtn.addEventListener("click", () => {
-        console.log(`Add todo to: ${activeProject.title}`);
-        // open dialog modal later
-    });
 }
+
+addTodoBtn.addEventListener("click", () => {
+        newTaskModal.showModal();
+    });
 
 function displayApp(){
     renderProjects();
@@ -159,6 +159,7 @@ function displayApp(){
 
 // form handlers
 const newProjectForm = document.querySelector(".add-project-form");
+const newTaskForm = document.querySelector(".add-task-form");
 
 newProjectForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -176,14 +177,37 @@ newProjectForm.addEventListener("submit", (event) => {
     renderTodos();
 });
 
+newTaskForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const todoData =  {
+        title: newTaskForm.querySelector("#task-title").value,
+        description: newTaskForm.querySelector("#task-description").value,
+        dueDate: newTaskForm.querySelector("#task-due-date").value,
+        priority: newTaskForm.querySelector("#task-priority").value,
+
+    };
+
+    addTodoToActiveProject(todoData);
+
+    newTaskForm.reset();
+    newTaskModal.close();
+
+    renderTodos();
+});
+
 cancelBtn.addEventListener("click", () => {
     newProjectForm.reset();
+    newTaskForm.reset();
     newProjectModal.close();
+    newTaskModal.close();
 });
 
 closeModalBtn.addEventListener("click", () => {
     newProjectForm.reset();
+    newTaskForm.reset();
     newProjectModal.close();
+    newTaskModal.close();
 });
 
 export { displayApp };
