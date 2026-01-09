@@ -1,10 +1,12 @@
-import { getActiveProject, setActiveProject, createProject, deleteProject, addTodoToActiveProject, deleteTodoFromActiveProject, toggleTodoComplete, projects } from "./app";
+import { getActiveProject, setActiveProject, createProject, deleteProject, addTodoToActiveProject, deleteTodoFromActiveProject, toggleTodoComplete, updateTodo, projects } from "./app";
 
 const newProjectModal = document.querySelector(".add-project-modal");
 const newTaskModal = document.querySelector(".add-task-modal");
 const cancelBtns = document.querySelectorAll(".cancel-form-btn");
 const closeModalBtns = document.querySelectorAll(".close-modal");
 const addTodoBtn = document.querySelector(".add-todo-btn");
+
+let currentTodoEdit = null;
 
 function renderProjects(){
     const projectsContainer = document.querySelector(".projects-container");
@@ -128,6 +130,22 @@ function renderTodos(){
             renderTodos();
         });
 
+        editTodoBtn.addEventListener("click", (event) => {
+            event.stopPropagation();
+            currentTodoEdit = todo;
+
+            formTitle.textContent = "Edit Task";
+            createTaskBtn.textContent = "Save Edit";
+
+            // prefill edit task modal inputs
+            newTaskForm.querySelector("#task-title").value = todo.title;
+            newTaskForm.querySelector("#task-description").value = todo.description;
+            newTaskForm.querySelector("#task-due-date").value = todo.dueDate;
+            newTaskForm.querySelector("#task-priority").value = todo.priority;
+
+            newTaskModal.showModal();
+        });
+
         todoRightContainer.append(deleteTodoBtn, editTodoBtn);
 
         todoItem.append(todoLeftContainer, todoRightContainer);
@@ -155,6 +173,12 @@ function renderActiveProjectInfo(){
 }
 
 addTodoBtn.addEventListener("click", () => {
+    currentTodoEdit = null;
+
+    formTitle.textContent = "New Task";
+    createTaskBtn.textContent = "+ Create Task";
+    
+    newTaskForm.reset();
     newTaskModal.showModal();
 });
 
@@ -167,6 +191,8 @@ function displayApp(){
 // form handlers
 const newProjectForm = document.querySelector(".add-project-form");
 const newTaskForm = document.querySelector(".add-task-form");
+const formTitle = newTaskForm.querySelector(".form-title");
+const createTaskBtn = newTaskForm.querySelector(".create-task-btn");
 
 newProjectForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -195,7 +221,12 @@ newTaskForm.addEventListener("submit", (event) => {
 
     };
 
-    addTodoToActiveProject(todoData);
+    if(currentTodoEdit){
+        updateTodo(currentTodoEdit, todoData);
+        currentTodoEdit = null;
+    } else{
+        addTodoToActiveProject(todoData);
+    }
 
     newTaskForm.reset();
     newTaskModal.close();
@@ -209,6 +240,7 @@ cancelBtns.forEach(btn => {
         newTaskForm.reset();
         newProjectModal.close();
         newTaskModal.close();
+        currentTodoEdit = null;
     });
 });
 
@@ -218,6 +250,7 @@ closeModalBtns.forEach(btn => {
         newTaskForm.reset();
         newProjectModal.close();
         newTaskModal.close();
+        currentTodoEdit = null;
     });
 });
 

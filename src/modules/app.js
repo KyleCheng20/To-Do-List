@@ -80,6 +80,15 @@ function toggleTodoComplete(todo){
     setStorage(projects);
 }
 
+function updateTodo(todoEdit, todoEditData){
+    todoEdit.title = todoEditData.title;
+    todoEdit.description = todoEditData.description;
+    todoEdit.dueDate = todoEditData.dueDate;
+    todoEdit.priority = todoEditData.priority;
+
+    setStorage(projects);
+}
+
 export {
     getActiveProject,
     setActiveProject,
@@ -88,5 +97,6 @@ export {
     addTodoToActiveProject,
     deleteTodoFromActiveProject,
     toggleTodoComplete,
+    updateTodo,
     projects
 }
