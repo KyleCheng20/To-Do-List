@@ -1,4 +1,5 @@
 import { getActiveProject, setActiveProject, createProject, deleteProject, addTodoToActiveProject, deleteTodoFromActiveProject, toggleTodoComplete, updateTodo, projects } from "./app";
+import {format} from "date-fns"
 
 const newProjectModal = document.querySelector(".add-project-modal");
 const newTaskModal = document.querySelector(".add-task-modal");
@@ -94,7 +95,8 @@ function renderTodos(){
 
         const todoDueDate = document.createElement("span");
         todoDueDate.classList.add("todo-due-date");
-        todoDueDate.textContent = todo.dueDate;
+        const dueDateData = new Date(todo.dueDate);
+        todoDueDate.textContent = format(dueDateData, "MMM d, yyyy");
 
         const todoPriority = document.createElement("span");
         todoPriority.classList.add("todo-priority");
