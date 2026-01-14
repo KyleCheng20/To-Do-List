@@ -61,7 +61,7 @@
                         </div>
                         <div class="project-description-input-container">
                             <label for="project-description">Project Description</label>
-                            <textarea id="project-description" name="project-description" placeholder="Enter project description"></textarea>
+                            <textarea id="project-description" name="project-description" placeholder="Enter project description" rows="5" cols="30"></textarea>
                         </div>
                     </div>
                     <div class="form-btn-container">
@@ -90,18 +90,20 @@
                             <textarea id="task-description" name="task-description" placeholder="Enter task description"></textarea>
                         </div>
 
-                        <div class="task-due-date-input-container">
-                            <label for="task-due-date">Task Due Date</label>
-                            <input required type="date" id="task-due-date" name="task-due-date">
-                        </div>
-
-                        <div class="task-priority-input-container">
-                            <label for="task-priority">Task Priority</label>
-                            <select name="task-priority" id="task-priority">
-                                <option value="Low">Low</option>
-                                <option value="Medium">Medium</option>
-                                <option value="High">High</option>
-                            </select>
+                        <div class="due-date-priority-container">
+                            <div class="task-due-date-input-container">
+                                <label for="task-due-date">Task Due Date</label>
+                                <input required type="date" id="task-due-date" name="task-due-date">
+                            </div>
+    
+                            <div class="task-priority-input-container">
+                                <label for="task-priority">Task Priority</label>
+                                <select name="task-priority" id="task-priority">
+                                    <option value="Low">Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="form-btn-container">
