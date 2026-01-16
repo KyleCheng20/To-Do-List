@@ -91,7 +91,11 @@ function renderTodos(){
 
         const todoDescription = document.createElement("p");
         todoDescription.classList.add("todo-description");
-        todoDescription.textContent = todo.description;
+        if(todo.description === ""){
+            todoDescription.textContent = "No description";
+        } else{
+            todoDescription.textContent = todo.description;
+        }
 
         const todoDueDate = document.createElement("span");
         todoDueDate.classList.add("todo-due-date");
@@ -169,7 +173,11 @@ function renderActiveProjectInfo(){
 
     const projectDescription = document.createElement("p");
     projectDescription.classList.add("project-description");
-    projectDescription.textContent = activeProject.description;
+    if(activeProject.description === ""){
+        projectDescription.textContent = "No description";
+    } else{
+        projectDescription.textContent = activeProject.description;
+    }
 
     infoContainer.append(projectTitle, projectDescription);
 }
