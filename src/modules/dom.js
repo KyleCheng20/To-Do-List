@@ -54,6 +54,7 @@ function renderProjects(){
     const addNewProjectBtn = document.querySelector(".add-project-btn");
     addNewProjectBtn.addEventListener("click", () => {
         newProjectModal.showModal();
+        updateCharCount();
     });
 }
 
@@ -150,6 +151,7 @@ function renderTodos(){
             newTaskForm.querySelector("#task-priority").value = todo.priority;
 
             newTaskModal.showModal();
+            updateCharCount();
         });
 
         todoRightContainer.append(deleteTodoBtn, editTodoBtn);
@@ -190,6 +192,7 @@ addTodoBtn.addEventListener("click", () => {
     
     newTaskForm.reset();
     newTaskModal.showModal();
+    updateCharCount();
 });
 
 function displayApp(){
@@ -251,6 +254,7 @@ cancelBtns.forEach(btn => {
         newProjectModal.close();
         newTaskModal.close();
         currentTodoEdit = null;
+        updateCharCount();
     });
 });
 
@@ -261,7 +265,45 @@ closeModalBtns.forEach(btn => {
         newProjectModal.close();
         newTaskModal.close();
         currentTodoEdit = null;
+        updateCharCount();
     });
+});
+
+// handle form character limits
+const inputFields = [
+    {
+        selector: "#project-title",
+        limitCount: "#project-title + .char-count"
+    },
+    {
+        selector: "#project-description",
+        limitCount: "#project-description + .char-count"
+    },
+    {
+        selector: "#task-title",
+        limitCount: "#task-title + .char-count"
+    },
+    {
+        selector: "#task-description",
+        limitCount: "#task-description + .char-count"
+    },
+];
+
+function updateCharCount(){
+    inputFields.forEach(field => {
+        const input = document.querySelector(field.selector);
+        const charCount = document.querySelector(field.limitCount);
+
+        if(!input || !charCount) return;
+
+        charCount.textContent = `${input.value.length} / ${input.maxLength}`;
+    });
+}
+
+inputFields.forEach(field => {
+    const input = document.querySelector(field.selector);
+    
+    input.addEventListener("input", updateCharCount);
 });
 
 export { displayApp };
